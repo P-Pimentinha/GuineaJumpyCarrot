@@ -1,34 +1,64 @@
+import {
+  StandingLeft,
+  StandingRight,
+  RunninRight,
+  RunningLeft,
+  JumpingRight,
+  JumpingLeft,
+} from './states/impexp.js';
 class Player {
   constructor(gameWidth, gameHeight, ctx) {
     this.ctx = ctx;
     this.gameWidth = gameWidth;
     this.gameHeight = gameHeight;
+
+    //state
+    this.state = [
+      new StandingLeft(this),
+      new StandingRight(this),
+      new RunningLeft(this),
+      new RunninRight(this),
+      new JumpingLeft(this),
+      new JumpingRight(this),
+    ];
+    this.currentState = this.state[1];
+
+    //coordinates
     this.width = 115;
     this.height = 55;
     this.position = {
-      x: 0,
+      x: 400,
       y: this.gameHeight - this.height,
     };
 
+    //sprite
     this.image = playerImage;
-
     this.frameX = 0;
     this.frameY = 0;
     this.maxFrame = 1;
-
-    this.fps = 1;
+    //deltaTime
+    this.fps = 2;
     this.frameTimer = 0;
-    this.frameInterval = 100 / this.fps;
-
+    this.frameInterval = 1000 / this.fps;
+    //movement
     this.velocity = {
       x: 0,
       y: 0,
     };
 
+    this.maxSpeed = 10;
     this.weight = 0.5;
   }
 
-  draw() {
+  draw(deltaTime) {
+    if (this.frameTimer > this.frameInterval) {
+      if (this.frameX < this.maxFrame) this.frameX++;
+      else this.frameX = 0;
+      this.frameTimer = 0;
+    } else {
+      this.frameTimer += deltaTime;
+    }
+
     this.ctx.drawImage(
       this.image,
       this.frameX * this.width,
@@ -43,69 +73,45 @@ class Player {
   }
 
   update(input, deltaTime) {
-    this.draw();
     // sprite animatio
-    if (this.frameTimer > this.frameInterval) {
-      this.frameX = this.frameX >= this.maxFrame ? 0 : this.frameX + 1;
-      this.frameTimer = 0;
-    } else {
-      this.frameTimer += deltaTime;
-    }
-
-    //controls
+    this.boundriesColision();
+    this.frameInterval = 1000 / this.fps;
+    this.draw(deltaTime);
+    this.currentState.handleInput(input);
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
 
-    if (this.onGround()) {
-      //movingRight
-      if (input.keys.indexOf('ArrowRight') > -1) {
-        this.velocity.x = 5;
-
-        this.frameY = 1;
-      }
-      //movingLeft
-      if (input.keys.indexOf('ArrowLeft') > -1) {
-        this.velocity.x = -4;
-
-        this.frameY = 2;
-      }
-      //jumping
-      if (input.keys.indexOf('ArrowUp') > -1) this.velocity.y -= 22;
-      //not moving
-      if (input.keys.length === 0) {
-        this.velocity.x = 0;
-
-        this.frameY = 0;
-      }
-    }
-
     if (!this.onGround()) {
       this.velocity.y += this.weight;
-
-      this.frameY = 3;
-      if (input.keys.indexOf('ArrowRight') > -1) {
-        this.velocity.x = 4;
-
-        this.frameY = 3;
-      }
-      //movingLeft
-      if (input.keys.indexOf('ArrowLeft') > -1) {
-        this.velocity.x = -4;
-
-        this.frameY = 4;
-      }
+    } else {
+      this.vy = 0;
     }
+  }
 
-    //stops player from going out of border X
+  setState(state) {
+    this.currentState = this.state[state];
+    this.currentState.enter();
+  }
+
+  boundriesColision() {
     this.position.x = Math.max(this.position.x, 0);
     this.position.x = Math.min(this.position.x, this.gameWidth - this.width);
-    //stops player from going out of border Y
-    if (this.position.y > this.gameHeight - this.height)
-      this.position.y = this.gameHeight - this.height;
+
+    this.position.y = Math.min(this.position.y, this.gameHeight - this.height);
   }
 
   onGround() {
     return this.position.y >= this.gameHeight - this.height;
+  }
+
+  platformColosion(obstacle) {
+    if (
+      this.position.x <= obstacle.position.x + obstacle.width &&
+      this.position.x + this.width >= obstacle.position.x &&
+      this.position.y <= obstacle.position.y + obstacle.height &&
+      this.position.y + this.height >= obstacle.position.y
+    )
+      console.log('hello');
   }
 }
 

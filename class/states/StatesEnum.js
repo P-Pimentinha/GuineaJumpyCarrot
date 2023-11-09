@@ -1,0 +1,8 @@
+export const states = {
+  STADING_LEFT: 0,
+  STANDING_RIGHT: 1,
+  RUNNING_LEFT: 2,
+  RUNNING_RIGHT: 3,
+  JUMPING_LEFT: 4,
+  JUMPING_RIGHT: 5,
+};

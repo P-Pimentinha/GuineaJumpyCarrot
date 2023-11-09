@@ -1,6 +1,9 @@
 /** @type {HTMLCanvasElement} */
 import Player from './class/Player.js';
 import InputHandler from './class/InputHandler.js';
+import Platform from './class/Platform.js';
+const canvas = document.getElementById('canvas1');
+const ctx = canvas.getContext('2d');
 
 window.addEventListener('load', function () {
   const canvas = document.getElementById('canvas1');
@@ -18,10 +21,10 @@ window.addEventListener('load', function () {
     lastTime = timeStamp;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    player.update(input, deltaTime);
+    player.update(input.lastKey, deltaTime);
 
     requestAnimationFrame(animate);
   }
 
-  // animate(0);
+  animate(0);
 });
