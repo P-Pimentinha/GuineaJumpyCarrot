@@ -21,7 +21,7 @@ window.addEventListener('load', function () {
     lastTime = timeStamp;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    player.update(input.lastKey, deltaTime);
+    player.update(input.keys, deltaTime);
 
     requestAnimationFrame(animate);
   }

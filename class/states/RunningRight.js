@@ -15,8 +15,9 @@ export class RunninRight extends State {
   }
 
   handleInput(input) {
-    if (input === 'PRESS left') this.player.setState(states.RUNNING_LEFT);
-    if (input === 'RELEASE right') this.player.setState(states.STANDING_RIGHT);
-    if (input === 'PRESS up') this.player.setState(states.JUMPING_RIGHT);
+    if (input.includes('ArrowLeft')) this.player.setState(states.RUNNING_LEFT);
+    if (!input.includes('ArrowRight'))
+      this.player.setState(states.STANDING_RIGHT);
+    if (input.includes('ArrowUp')) this.player.setState(states.JUMPING_RIGHT);
   }
 }

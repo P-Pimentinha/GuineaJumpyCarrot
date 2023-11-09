@@ -16,7 +16,7 @@ export class RunningLeft extends State {
 
   handleInput(input) {
     if (input === 'PRESS right') this.player.setState(states.RUNNING_RIGHT);
-    if (input === 'RELEASE left') this.player.setState(states.STADING_LEFT);
+    if (!input.includes('ArrowLeft')) this.player.setState(states.STADING_LEFT);
     if (input === 'PRESS up') this.player.setState(states.JUMPING_LEFT);
   }
 }
