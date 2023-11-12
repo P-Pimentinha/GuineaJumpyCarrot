@@ -2,11 +2,11 @@ class Platform {
   constructor(ctx) {
     this.ctx = ctx;
     this.position = {
-      x: 300,
-      y: 380,
+      x: 0,
+      y: 450,
     };
-    this.width = 100;
-    this.height = 20;
+    this.width = 850;
+    this.height = 50;
   }
 
   draw() {

@@ -5,4 +5,6 @@ export const states = {
   RUNNING_RIGHT: 3,
   JUMPING_LEFT: 4,
   JUMPING_RIGHT: 5,
+  FALLING_LEFT: 6,
+  FALLING_RIGHT: 7,
 };

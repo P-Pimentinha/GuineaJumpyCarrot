@@ -15,6 +15,8 @@ export class RunninRight extends State {
   }
 
   handleInput(input) {
+    // if (this.player.colisionRight)
+    //   this.player.setState(states.STANDING_RIGHT_COLISION);
     if (input.includes('ArrowLeft')) this.player.setState(states.RUNNING_LEFT);
     if (!input.includes('ArrowRight'))
       this.player.setState(states.STANDING_RIGHT);

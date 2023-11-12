@@ -5,12 +5,16 @@ import {
   RunningLeft,
   JumpingRight,
   JumpingLeft,
+  FallingRight,
+  FallingLeft,
+  StandingRightColision,
 } from './states/impexp.js';
 class Player {
-  constructor(gameWidth, gameHeight, ctx) {
+  constructor(gameWidth, gameHeight, ctx, obstacle) {
     this.ctx = ctx;
     this.gameWidth = gameWidth;
     this.gameHeight = gameHeight;
+    this.obstacle = obstacle;
 
     //state
     this.state = [
@@ -20,6 +24,8 @@ class Player {
       new RunninRight(this),
       new JumpingLeft(this),
       new JumpingRight(this),
+      new FallingLeft(this),
+      new FallingRight(this),
     ];
     this.currentState = this.state[1];
 
@@ -28,7 +34,7 @@ class Player {
     this.height = 55;
     this.position = {
       x: 400,
-      y: this.gameHeight - this.height,
+      y: -100,
     };
 
     //sprite
@@ -48,6 +54,9 @@ class Player {
 
     this.maxSpeed = 10;
     this.weight = 0.5;
+
+    this.grounded = false;
+    this.colisionRight = false;
   }
 
   draw(deltaTime) {
@@ -74,17 +83,21 @@ class Player {
 
   update(input, deltaTime) {
     // sprite animatio
+
     this.boundriesColision();
     this.frameInterval = 1000 / this.fps;
     this.draw(deltaTime);
-    this.currentState.handleInput(input);
+    this.currentState.handleInput(input, this.obstacle);
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
+    this.grounded = false;
+    this.colisionRight = false;
+    this.platformColosion(this.obstacle);
 
-    if (!this.onGround()) {
+    if (!this.grounded) {
       this.velocity.y += this.weight;
     } else {
-      this.vy = 0;
+      this.velocity.y = 0;
     }
   }
 
@@ -96,7 +109,6 @@ class Player {
   boundriesColision() {
     this.position.x = Math.max(this.position.x, 0);
     this.position.x = Math.min(this.position.x, this.gameWidth - this.width);
-
     this.position.y = Math.min(this.position.y, this.gameHeight - this.height);
   }
 
@@ -104,14 +116,30 @@ class Player {
     return this.position.y >= this.gameHeight - this.height;
   }
 
-  platformColosion(obstacle) {
-    if (
-      this.position.x <= obstacle.position.x + obstacle.width &&
-      this.position.x + this.width >= obstacle.position.x &&
-      this.position.y <= obstacle.position.y + obstacle.height &&
-      this.position.y + this.height >= obstacle.position.y
-    )
-      console.log('hello');
+  platformColosion(obstacles) {
+    obstacles.forEach((obstacle) => {
+      if (
+        this.position.x <= obstacle.position.x + obstacle.width &&
+        this.position.x + this.width >= obstacle.position.x &&
+        this.position.y <= obstacle.position.y + obstacle.height &&
+        this.position.y + this.height >= obstacle.position.y
+      ) {
+        if (
+          this.position.y + this.height >= obstacle.position.y &&
+          this.position.y + this.height <= obstacle.position.y + 22 &&
+          this.position.x + this.width >= obstacle.position.x + 5
+        ) {
+          this.grounded = true;
+        }
+        // if (
+        //   this.position.x + this.width >= obstacle.position.x &&
+        //   this.position.x + this.width <= obstacle.position.x + 5
+        // ) {
+        //   this.colisionRight = true;
+        //   this.position.x -= 10;
+        // }
+      }
+    });
   }
 }
 

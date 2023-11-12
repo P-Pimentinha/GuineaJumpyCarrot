@@ -2,20 +2,22 @@ import { states } from './StatesEnum.js';
 import { State } from './State.js';
 
 export class JumpingLeft extends State {
-  constructor(player) {
+  constructor(player, obstacle) {
     super('Jumping Left');
     this.player = player;
+    this.obstacle = obstacle;
   }
 
   enter() {
     this.player.frameY = 5;
-    if (this.player.onGround()) this.player.velocity.y -= 20;
-    this.player.velocity.x = -this.player.maxSpeed * 0.2;
+    this.player.grounded = false;
+    this.player.velocity.y -= 15;
+    this.player.velocity.x = -this.player.maxSpeed * 0.5;
     this.player.maxFrame = 1;
   }
 
   handleInput(input) {
-    if (this.player.onGround()) this.player.setState(states.STADING_LEFT);
-    if (input === 'PRESS left') this.player.position.x -= 2;
+    if (this.player.velocity.y > 0) this.player.setState(states.FALLING_LEFT);
+    if (this.player.grounded) this.player.setState(states.STADING_LEFT);
   }
 }
