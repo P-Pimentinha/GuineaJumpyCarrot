@@ -8,6 +8,8 @@ import {
   FallingRight,
   FallingLeft,
   StandingRightColision,
+  FallingLeftColision,
+  FallingRightColision,
 } from './states/impexp.js';
 class Player {
   constructor(gameWidth, gameHeight, ctx, obstacle) {
@@ -26,6 +28,8 @@ class Player {
       new JumpingRight(this),
       new FallingLeft(this),
       new FallingRight(this),
+      new FallingLeftColision(this),
+      new FallingRightColision(this),
     ];
     this.currentState = this.state[1];
 
@@ -33,8 +37,8 @@ class Player {
     this.width = 115;
     this.height = 55;
     this.position = {
-      x: 400,
-      y: -100,
+      x: 700,
+      y: 600,
     };
 
     //sprite
@@ -57,6 +61,7 @@ class Player {
 
     this.grounded = false;
     this.colisionRight = false;
+    this.colisionBottom = false;
   }
 
   draw(deltaTime) {
@@ -90,10 +95,9 @@ class Player {
     this.currentState.handleInput(input, this.obstacle);
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
-    this.grounded = false;
-    this.colisionRight = false;
+    this.colisionReset();
     this.platformColosion(this.obstacle);
-
+    //gravity
     if (!this.grounded) {
       this.velocity.y += this.weight;
     } else {
@@ -109,7 +113,7 @@ class Player {
   boundriesColision() {
     this.position.x = Math.max(this.position.x, 0);
     this.position.x = Math.min(this.position.x, this.gameWidth - this.width);
-    this.position.y = Math.min(this.position.y, this.gameHeight - this.height);
+    // this.position.y = Math.min(this.position.y, this.gameHeight - this.height);
   }
 
   onGround() {
@@ -117,7 +121,9 @@ class Player {
   }
 
   platformColosion(obstacles) {
-    obstacles.forEach((obstacle) => {
+    for (let i = 0; i < obstacles.length; i++) {
+      const obstacle = obstacles[i];
+
       if (
         this.position.x <= obstacle.position.x + obstacle.width &&
         this.position.x + this.width >= obstacle.position.x &&
@@ -130,17 +136,68 @@ class Player {
           this.position.x + this.width >= obstacle.position.x + 5
         ) {
           this.grounded = true;
+          this.position.y = obstacle.position.y - (this.height - 5);
+          break;
+        } else if (
+          // Check if the contact is made specifically on the top
+          this.position.y <= obstacle.position.y + obstacle.height &&
+          this.position.y >= obstacle.position.y + obstacle.height - 15
+        ) {
+          this.colisionBottom = true;
+          break;
         }
-        // if (
-        //   this.position.x + this.width >= obstacle.position.x &&
-        //   this.position.x + this.width <= obstacle.position.x + 5
-        // ) {
-        //   this.colisionRight = true;
-        //   this.position.x -= 10;
-        // }
       }
-    });
+    }
+  }
+
+  colisionReset() {
+    this.grounded = false;
+    this.colisionRight = false;
+    this.colisionBottom = false;
   }
 }
 
 export default Player;
+
+//  obstacles.forEach((obstacle) => {
+//    if (
+//      this.position.x <= obstacle.position.x + obstacle.width &&
+//      this.position.x + this.width >= obstacle.position.x &&
+//      this.position.y <= obstacle.position.y + obstacle.height &&
+//      this.position.y + this.height >= obstacle.position.y
+//    ) {
+//      if (
+//        this.position.y + this.height >= obstacle.position.y &&
+//        this.position.y + this.height <= obstacle.position.y + 22 &&
+//        this.position.x + this.width >= obstacle.position.x + 5
+//      ) {
+//        this.grounded = true;
+//        this.position.y = obstacle.position.y - (this.height - 5);
+//      }
+//      // if (
+//      //   this.position.x + this.width >= obstacle.position.x &&
+//      //   this.position.x + this.width <= obstacle.position.x + 5
+//      // ) {
+//      //   this.colisionRight = true;
+//      //   this.position.x -= 10;
+//      // }
+
+//      // // Check if the contact is made specifically on the right
+//      // if (
+//      //   this.position.x + this.width >= obstacle.position.x &&
+//      //   this.position.x + this.width <= obstacle.position.x + 10
+//      // ) {
+//      //   // Perform your action when contact is on the right (e.g., bounce, stop, etc.)
+//      //   // Replace `10` with the desired threshold value for what you consider as a "right" collision
+//      // }
+
+//      // // Check if the contact is made specifically on the left
+//      // if (
+//      //   this.position.x <= obstacle.position.x + obstacle.width &&
+//      //   this.position.x >= obstacle.position.x + obstacle.width - 10
+//      // ) {
+//      //   // Perform your action when contact is on the left (e.g., bounce, stop, etc.)
+//      //   // Replace `10` with the desired threshold value for what you consider as a "left" collision
+//      // }
+//    }
+//  });

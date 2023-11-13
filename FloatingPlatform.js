@@ -15,8 +15,8 @@ class FloatingPlatform {
   }
   update(ctx) {
     this.draw(ctx);
-    // this.position.x--;
-    if (this.position.x < 0 - this.width) this.delete = true;
+    this.position.y += 1;
+    if (this.position.y > 1000 + this.height) this.delete = true;
   }
 }
 

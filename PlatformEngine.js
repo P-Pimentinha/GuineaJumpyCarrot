@@ -3,24 +3,39 @@ import FloatingPlatform from './FloatingPlatform.js';
 class PlatformEngine {
   constructor() {
     this.platforms = [
-      new FloatingPlatform(0, 450, 2000, 10),
-      new FloatingPlatform(200, 50, 300, 10),
-      // new FloatingPlatform(500, 350, 500, 55),
-      // new FloatingPlatform(700, 290, 500, 55),
-      // new FloatingPlatform(800, 230, 500, 55),
-      // new FloatingPlatform(900, 170, 500, 55),
+      // new FloatingPlatform(0, 900, 2000, 10),
 
-      // new FloatingPlatform(600, 200, 600, 400),
+      //right
+      new FloatingPlatform(600, 700, 400, 40),
+      //left
+      new FloatingPlatform(0, 500, 400, 40),
+
+      //right
+      new FloatingPlatform(600, 300, 400, 40),
+      //left
+      new FloatingPlatform(0, 100, 400, 40),
+
+      //right
+      new FloatingPlatform(600, -100, 400, 40),
+      //left
+      new FloatingPlatform(0, -300, 400, 40),
+
+      //right
+      new FloatingPlatform(600, -600, 400, 40),
+      //left
+      new FloatingPlatform(0, -900, 400, 40),
     ];
   }
 
   draw(ctx) {
-    this.platforms.forEach((element) => {
+    for (let i = this.platforms.length - 1; i >= 0; i--) {
+      const element = this.platforms[i];
       if (element.delete) {
-        this.platforms = this.platforms.filter((platform) => !platform.delete);
+        this.platforms.splice(i, 1);
+        break;
       }
       element.update(ctx);
-    });
+    }
   }
 }
 

@@ -11,8 +11,8 @@ const ctx = canvas.getContext('2d');
 window.addEventListener('load', function () {
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
-  canvas.width = 2000;
-  canvas.height = 500;
+  canvas.width = 1000;
+  canvas.height = 1000;
   const platformEngine = new PlatformEngine();
   const platform = new Platform(ctx);
   const player = new Player(
@@ -35,14 +35,12 @@ window.addEventListener('load', function () {
     platformEngine.draw(ctx);
     player.update(input.keys, deltaTime, platformEngine.platforms);
     ctx.font = '30px Helvetica';
-    ctx.fillText('colision Right: ' + player.colisionRight, 40, 100);
+    ctx.fillText('colision Right: ' + player.velocity.y, 40, 100);
     ctx.font = '30px Helvetica';
-    ctx.fillText('Velocity: ' + player.velocity.y, 40, 150);
-
-    // platform.update();
-
-    // requestAnimationFrame(animate);
+    ctx.fillText('Grounded: ' + player.grounded, 40, 150);
+    console.log(player.velocity.y);
+    requestAnimationFrame(animate);
   }
 
-  animate(0);
+  // animate(0);
 });
