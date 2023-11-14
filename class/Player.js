@@ -116,9 +116,9 @@ class Player {
     // this.position.y = Math.min(this.position.y, this.gameHeight - this.height);
   }
 
-  onGround() {
-    return this.position.y >= this.gameHeight - this.height;
-  }
+  // onGround() {
+  //   return this.position.y >= this.gameHeight - this.height;
+  // }
 
   platformColosion(obstacles) {
     for (let i = 0; i < obstacles.length; i++) {
@@ -137,6 +137,8 @@ class Player {
         ) {
           this.grounded = true;
           this.position.y = obstacle.position.y - (this.height - 5);
+          obstacle.contact = true;
+
           break;
         } else if (
           // Check if the contact is made specifically on the top
@@ -146,6 +148,8 @@ class Player {
           this.colisionBottom = true;
           break;
         }
+      } else {
+        obstacle.contact = false;
       }
     }
   }
