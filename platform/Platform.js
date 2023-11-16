@@ -1,4 +1,4 @@
-import { Normal, Contact } from './states/impexp.js';
+import { Normal, Contact, ContactSecondPhase } from './states/impexp.js';
 
 class Platform {
   constructor(x, y, width, height, gameHeight) {
@@ -10,7 +10,11 @@ class Platform {
     this.width = width;
     this.height = height;
 
-    this.state = [new Normal(this), new Contact(this)];
+    this.state = [
+      new Normal(this),
+      new Contact(this),
+      new ContactSecondPhase(this),
+    ];
     this.currentState = this.state[0];
     this.contact = false;
     this.delete = false;
@@ -20,13 +24,19 @@ class Platform {
     this.frameX = 0;
     this.frameY = 0;
     this.maxFrame = 1;
-    //deltaTime
-
+    //deltaTimeUpdate Speed
     this.frameTimer = 0;
     this.frameInterval = 5 * 1000;
     this.speed = 0.5;
+
+    //deltaTime Update Platform
+    this.frameTimerPlatform = 0;
+    this.frameIntervalPlatform = 1 * 1000;
+
     //to delete
     this.color = 'black';
+    //counter
+    this.timer = 0;
   }
 
   draw(ctx) {
@@ -43,16 +53,25 @@ class Platform {
     }
 
     this.position.y += this.speed;
+    if (this.contact) this.timerAdd(deltaTIme);
     if (this.position.y > this.gameHeight + this.height) this.delete = true;
 
     this.draw(ctx);
     this.currentState.handleContact();
-    // this.contact = false;
   }
 
   setState(state) {
     this.currentState = this.state[state];
     this.currentState.enter();
+  }
+
+  timerAdd(deltaTIme) {
+    if (this.frameTimerPlatform > this.frameIntervalPlatform) {
+      this.timer++;
+      this.frameTimerPlatform = 0;
+    } else {
+      this.frameTimerPlatform += deltaTIme;
+    }
   }
 }
 

@@ -12,11 +12,12 @@ import {
   FallingRightColision,
 } from './states/impexp.js';
 class Player {
-  constructor(gameWidth, gameHeight, ctx, obstacle) {
+  constructor(gameWidth, gameHeight, ctx, obstacle, tokens) {
     this.ctx = ctx;
     this.gameWidth = gameWidth;
     this.gameHeight = gameHeight;
     this.obstacle = obstacle;
+    this.tokens = tokens;
 
     //state
     this.state = [
@@ -97,6 +98,7 @@ class Player {
     this.position.y += this.velocity.y;
     this.colisionReset();
     this.platformColosion(this.obstacle);
+    this.tokenCollision(this.tokens);
     //gravity
     if (!this.grounded) {
       this.velocity.y += this.weight;
@@ -150,6 +152,20 @@ class Player {
         }
       } else {
         obstacle.contact = false;
+      }
+    }
+  }
+
+  tokenCollision(tokens) {
+    for (let i = 0; i < tokens.length; i++) {
+      const token = tokens[i];
+      if (
+        this.position.x <= token.position.x + token.width &&
+        this.position.x + this.width >= token.position.x &&
+        this.position.y <= token.position.y + token.height &&
+        this.position.y + this.height >= token.position.y
+      ) {
+        token.delete = true;
       }
     }
   }
