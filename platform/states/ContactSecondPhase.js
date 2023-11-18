@@ -10,9 +10,11 @@ export class ContactSecondPhase extends PlatformState {
   enter() {
     this.platform.color = 'Red';
     //logic to change sprite
+    //  this.platform.frameX = 1;
+    this.platform.frameY = 1;
   }
 
   handleContact() {
-    if (this.platform.timer > 20) this.platform.delete = true;
+    if (this.platform.timer > 10) this.platform.delete = true;
   }
 }

@@ -7,13 +7,11 @@ export class Contact extends PlatformState {
     this.platform = platform;
   }
 
-  enter() {
-    this.platform.color = 'Green';
-  }
+  enter() {}
 
   handleContact() {
     if (!this.platform.contact) this.platform.setState(states.NORMAL);
-    if (this.platform.timer > 10)
+    if (this.platform.timer > 5)
       this.platform.setState(states.CONTACTSECONDPHASE);
   }
 }

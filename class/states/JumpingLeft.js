@@ -11,7 +11,7 @@ export class JumpingLeft extends State {
   enter() {
     this.player.frameY = 5;
     this.player.grounded = false;
-    this.player.velocity.y -= 20;
+    this.player.velocity.y -= 15;
     this.player.velocity.x = -this.player.maxSpeed * 0.5;
     this.player.maxFrame = 1;
   }

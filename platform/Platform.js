@@ -20,13 +20,13 @@ class Platform {
     this.delete = false;
 
     //sprite
-    // this.image = playerImage;
+    this.image = plankImage;
     this.frameX = 0;
     this.frameY = 0;
-    this.maxFrame = 1;
+    // this.maxFrame = 1;
     //deltaTimeUpdate Speed
     this.frameTimer = 0;
-    this.frameInterval = 5 * 1000;
+    this.frameInterval = 10 * 1000;
     this.speed = 0.5;
 
     //deltaTime Update Platform
@@ -40,13 +40,25 @@ class Platform {
   }
 
   draw(ctx) {
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    // ctx.fillStyle = this.color;
+    // ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+
+    ctx.drawImage(
+      this.image,
+      this.frameX * this.width,
+      this.frameY * this.height,
+      this.width,
+      this.height,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
   }
 
-  update(ctx, deltaTIme) {
+  update(deltaTIme) {
     if (this.frameTimer > this.frameInterval) {
-      this.speed += 0.5;
+      this.speed += 0.1;
       this.frameTimer = 0;
     } else {
       this.frameTimer += deltaTIme;
@@ -55,8 +67,8 @@ class Platform {
     this.position.y += this.speed;
     if (this.contact) this.timerAdd(deltaTIme);
     if (this.position.y > this.gameHeight + this.height) this.delete = true;
+    else false;
 
-    this.draw(ctx);
     this.currentState.handleContact();
   }
 

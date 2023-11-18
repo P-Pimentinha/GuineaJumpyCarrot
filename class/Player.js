@@ -12,12 +12,13 @@ import {
   FallingRightColision,
 } from './states/impexp.js';
 class Player {
-  constructor(gameWidth, gameHeight, ctx, obstacle, tokens) {
+  constructor(gameWidth, gameHeight, ctx, obstacle, tokens, score) {
     this.ctx = ctx;
     this.gameWidth = gameWidth;
     this.gameHeight = gameHeight;
     this.obstacle = obstacle;
     this.tokens = tokens;
+    this.score = score;
 
     //state
     this.state = [
@@ -38,8 +39,8 @@ class Player {
     this.width = 115;
     this.height = 55;
     this.position = {
-      x: 700,
-      y: 600,
+      x: 100,
+      y: 380,
     };
 
     //sprite
@@ -165,6 +166,7 @@ class Player {
         this.position.y <= token.position.y + token.height &&
         this.position.y + this.height >= token.position.y
       ) {
+        this.score.addScore();
         token.delete = true;
       }
     }

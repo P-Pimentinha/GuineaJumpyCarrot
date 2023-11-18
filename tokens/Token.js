@@ -8,11 +8,31 @@ class Token {
     this.delete = false;
 
     this.speed = 0;
+    // Array of possible image values
+    this.possibleImages = [kiwiImage, waterMelonImage, cucumberImage];
+
+    // Select a random image value
+    this.image =
+      this.possibleImages[
+        Math.floor(Math.random() * this.possibleImages.length)
+      ];
   }
 
   draw(ctx) {
-    ctx.fillStyle = 'Orange';
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    // ctx.fillStyle = 'Orange';
+    // ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+
+    ctx.drawImage(
+      this.image,
+      0,
+      0,
+      this.width,
+      this.height,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
   }
 
   update(ctx) {

@@ -2,38 +2,42 @@ import Platform from './platform/Platform.js';
 
 class PlatformEngine {
   constructor(gameHeight) {
-    this.platforms = [
-      //right
-      new Platform(600, 700, 400, 40, gameHeight),
-      //left
-      new Platform(0, 500, 400, 40, gameHeight),
-      //right
-      new Platform(600, 300, 400, 40, gameHeight),
-      //left
-      new Platform(0, 100, 400, 40, gameHeight),
-      //right
-      new Platform(600, -100, 400, 40, gameHeight),
-      //left
-      new Platform(0, -300, 400, 40, gameHeight),
-      //right
-      new Platform(600, -600, 400, 40, gameHeight),
-      //left
-      new Platform(0, -900, 400, 40, gameHeight),
-      // new Platform(0, 800, 450, 40, gameHeight),
-      // new Platform(600, 800, 400, 40, gameHeight),
-      // new Platform(0, 900, 1000, 40, gameHeight),
-    ];
+    this.platforms = this.generatePlatforms(gameHeight);
   }
 
   draw(ctx, deltaTime) {
     for (let i = this.platforms.length - 1; i >= 0; i--) {
       const element = this.platforms[i];
+      if (element.position.y < -1) {
+        element.update(deltaTime);
+        continue;
+      }
+
       if (element.delete) {
         this.platforms.splice(i, 1);
-        break;
+        continue;
       }
-      element.update(ctx, deltaTime);
+
+      element.update(deltaTime);
+      element.draw(ctx);
     }
+  }
+
+  generatePlatforms(gameHeight) {
+    let platformsArray = [];
+
+    let left = { x: 100, y: 750 };
+    let right = { x: 600, y: 600 };
+
+    for (let i = 0; i < 200; i++) {
+      //left
+      platformsArray.push(new Platform(left.x, left.y, 300, 20, gameHeight));
+      left.y -= 300;
+      //right
+      platformsArray.push(new Platform(right.x, right.y, 300, 20, gameHeight));
+      right.y -= 300;
+    }
+    return platformsArray;
   }
 }
 

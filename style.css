@@ -11,7 +11,9 @@ body {
 }
 
 #playerImage,
-#backgroundImage,
-#enemyImage {
+#plankImage,
+#kiwiImage,
+#waterMelonImage,
+#cucumberImage {
   display: none;
 }
