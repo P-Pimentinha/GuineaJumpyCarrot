@@ -62,6 +62,7 @@ class Player {
     this.weight = 0.5;
 
     this.grounded = false;
+    this.jumping = false;
     this.colisionRight = false;
     this.colisionBottom = false;
   }
@@ -74,6 +75,14 @@ class Player {
     } else {
       this.frameTimer += deltaTime;
     }
+
+    // this.ctx.fillStyle = this.color;
+    // this.ctx.fillRect(
+    //   this.position.x,
+    //   this.position.y,
+    //   this.width,
+    //   this.height
+    // );
 
     this.ctx.drawImage(
       this.image,
@@ -125,6 +134,8 @@ class Player {
 
   platformColosion(obstacles) {
     for (let i = 0; i < obstacles.length; i++) {
+      if (obstacles[i].position.y < 0) continue;
+
       const obstacle = obstacles[i];
 
       if (
@@ -138,6 +149,7 @@ class Player {
           this.position.y + this.height <= obstacle.position.y + 22 &&
           this.position.x + this.width >= obstacle.position.x + 5
         ) {
+          if (this.jumping) continue;
           this.grounded = true;
           this.position.y = obstacle.position.y - (this.height - 5);
           obstacle.contact = true;

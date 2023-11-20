@@ -12,6 +12,7 @@ export class StandingRight extends State {
     this.player.velocity.x = 0;
     this.player.maxFrame = 1;
     this.player.fps = 2;
+    this.player.jumping = false;
   }
 
   handleInput(input) {

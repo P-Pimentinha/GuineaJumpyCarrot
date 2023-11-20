@@ -11,6 +11,7 @@ export class FallingLeftColision extends State {
     this.player.grounded = false;
     this.player.velocity.y += 20;
     this.player.velocity.x = 0;
+    this.player.jumping = false;
   }
 
   handleInput(input) {

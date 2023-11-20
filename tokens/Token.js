@@ -4,10 +4,10 @@ class Token {
 
     this.width = 50;
     this.height = 50;
+    this.speed = 2;
 
     this.delete = false;
 
-    this.speed = 0;
     // Array of possible image values
     this.possibleImages = [kiwiImage, waterMelonImage, cucumberImage];
 
@@ -36,6 +36,7 @@ class Token {
   }
 
   update(ctx) {
+    this.position.y += this.speed;
     this.draw(ctx);
   }
 }

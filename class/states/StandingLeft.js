@@ -12,12 +12,13 @@ export class StandingLeft extends State {
     this.player.velocity.x = 0;
     this.player.maxFrame = 1;
     this.player.fps = 2;
+    this.player.jumping = false;
   }
 
   handleInput(input) {
     if (input.includes('ArrowLeft')) this.player.setState(states.RUNNING_LEFT);
     if (input.includes('ArrowRight') && this.player.grounded)
-      this.player.setState(states.RUNNING_RIGHT);
+      this.player.setState(states.STANDING_RIGHT);
     if (input.includes('ArrowUp')) this.player.setState(states.JUMPING_LEFT);
   }
 }

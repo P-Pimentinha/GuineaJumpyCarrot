@@ -36,18 +36,18 @@ window.addEventListener('load', function () {
     const deltaTime = timeStamp - lastTime;
     lastTime = timeStamp;
 
-    // drawStatusText(ctx, player);
+    drawStatusText(ctx, player);
 
     platformEngine.draw(ctx, deltaTime);
     token.draw(ctx, deltaTime);
     player.update(input.keys, deltaTime, platformEngine.platforms);
     ctx.font = '30px Helvetica';
     ctx.fillText('Score: ' + score.showScore(), 40, 100);
-    // ctx.font = '30px Helvetica';
-    // ctx.fillText('Grounded: ' + player.grounded, 40, 150);
+    ctx.font = '30px Helvetica';
+    ctx.fillText('Grounded: ' + player.velocity.y, 40, 150);
 
     requestAnimationFrame(animate);
   }
 
-  animate(0);
+  // animate(0);
 });

@@ -4,12 +4,12 @@ class TokenEngine {
   constructor() {
     this.tokens = [new Token(200, 700)];
     this.frameTimer = 0;
-    this.frameInterval = 5 * 1000;
+    this.frameInterval = 4 * 1000;
   }
 
   draw(ctx, deltaTime) {
     const positionX = Math.floor(Math.random() * (900 - 150 + 1)) + 150;
-    const positionY = Math.floor(Math.random() * (750 - 150 + 1)) + 150;
+    const positionY = -3;
 
     for (let i = this.tokens.length - 1; i >= 0; i--) {
       const element = this.tokens[i];

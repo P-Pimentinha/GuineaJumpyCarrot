@@ -27,7 +27,7 @@ class Platform {
     //deltaTimeUpdate Speed
     this.frameTimer = 0;
     this.frameInterval = 10 * 1000;
-    this.speed = 0.5;
+    this.speed = 1.2;
 
     //deltaTime Update Platform
     this.frameTimerPlatform = 0;
@@ -40,8 +40,8 @@ class Platform {
   }
 
   draw(ctx) {
-    // ctx.fillStyle = this.color;
-    // ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    ctx.fillStyle = this.color;
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
 
     ctx.drawImage(
       this.image,
@@ -57,12 +57,12 @@ class Platform {
   }
 
   update(deltaTIme) {
-    if (this.frameTimer > this.frameInterval) {
-      this.speed += 0.1;
-      this.frameTimer = 0;
-    } else {
-      this.frameTimer += deltaTIme;
-    }
+    // if (this.frameTimer > this.frameInterval) {
+    //   this.speed += 0.5;
+    //   this.frameTimer = 0;
+    // } else {
+    //   this.frameTimer += deltaTIme;
+    // }
 
     this.position.y += this.speed;
     if (this.contact) this.timerAdd(deltaTIme);

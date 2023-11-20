@@ -12,6 +12,7 @@ export class RunningLeft extends State {
     this.player.velocity.x = -this.player.maxSpeed;
     this.player.maxFrame = 1;
     this.player.fps = 6;
+    this.player.jumping = false;
   }
 
   handleInput(input) {

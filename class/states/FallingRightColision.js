@@ -9,8 +9,9 @@ export class FallingRightColision extends State {
 
   enter() {
     this.player.grounded = false;
-    this.player.velocity.y += 19;
+    this.player.velocity.y += 14;
     this.player.velocity.x = 0;
+    this.player.jumping = false;
   }
 
   handleInput(input) {

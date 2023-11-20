@@ -9,6 +9,7 @@ export class FallingRight extends State {
 
   enter() {
     this.player.velocity.x = this.player.maxSpeed * 0.5;
+    this.player.jumping = false;
   }
 
   handleInput(input) {
