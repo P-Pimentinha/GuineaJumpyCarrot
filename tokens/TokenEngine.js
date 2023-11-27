@@ -1,29 +1,36 @@
 import Token from './Token.js';
 
 class TokenEngine {
-  constructor() {
-    this.tokens = [new Token(200, 700)];
+  constructor(gameHeight) {
+    this.gameHeight = gameHeight;
+    this.tokens = [new Token(200, 700, this.gameHeight)];
     this.frameTimer = 0;
     this.frameInterval = 4 * 1000;
   }
 
   draw(ctx, deltaTime) {
-    const positionX = Math.floor(Math.random() * (900 - 150 + 1)) + 150;
-    const positionY = -3;
+    this.updateToken(ctx, deltaTime);
+    this.generateNewToken(deltaTime);
+  }
 
+  updateToken(ctx, deltaTime) {
     for (let i = this.tokens.length - 1; i >= 0; i--) {
       const element = this.tokens[i];
       if (element.delete) {
         this.tokens.splice(i, 1);
-        break;
       }
-      element.update(ctx);
+      element.update(ctx, deltaTime);
     }
+  }
+
+  generateNewToken(deltaTime) {
+    const positionX = Math.floor(Math.random() * (900 - 150 + 1)) + 150;
+    const positionY = -3;
 
     if (this.tokens.length >= 4) {
       this.frameTimer = 0;
     } else if (this.frameTimer > this.frameInterval) {
-      this.tokens.push(new Token(positionX, positionY));
+      this.tokens.push(new Token(positionX, positionY, this.gameHeight));
       this.frameTimer = 0;
     } else {
       this.frameTimer += deltaTime;

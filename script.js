@@ -1,7 +1,7 @@
 /** @type {HTMLCanvasElement} */
 import Player from './class/Player.js';
 import InputHandler from './class/InputHandler.js';
-
+import Background from './background/Background.js';
 import { drawStatusText } from './utils/utils.js';
 import PlatformEngine from './PlatformEngine.js';
 import TokenEngine from './tokens/TokenEngine.js';
@@ -17,7 +17,8 @@ window.addEventListener('load', function () {
   canvas.height = 1000;
   const score = new Score();
   const platformEngine = new PlatformEngine(canvas.height);
-  const token = new TokenEngine();
+  const token = new TokenEngine(canvas.height);
+  const background = new Background(ctx, 0, 0, 1000, 1000);
   const player = new Player(
     canvas.width,
     canvas.height,
@@ -35,11 +36,12 @@ window.addEventListener('load', function () {
     //deltaTIme
     const deltaTime = timeStamp - lastTime;
     lastTime = timeStamp;
+    background.draw(deltaTime);
 
     drawStatusText(ctx, player);
-
-    platformEngine.draw(ctx, deltaTime);
     token.draw(ctx, deltaTime);
+    platformEngine.draw(ctx, deltaTime);
+
     player.update(input.keys, deltaTime, platformEngine.platforms);
     ctx.font = '30px Helvetica';
     ctx.fillText('Score: ' + score.showScore(), 40, 100);

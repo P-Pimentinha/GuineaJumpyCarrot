@@ -26,12 +26,13 @@ class PlatformEngine {
 
   generatePlatforms(gameHeight) {
     let platformsArray = [
-      new StaticPlatform(0, 350, 100, 20, gameHeight),
-      new StaticPlatform(0, 750, 150, 20, gameHeight),
-      new StaticPlatform(900, 250, 100, 20, gameHeight),
-      new StaticPlatform(900, 600, 100, 20, gameHeight),
-      new StaticPlatform(450, 850, 100, 20, gameHeight),
-      new StaticPlatform(450, 420, 100, 20, gameHeight),
+      new StaticPlatform(0, 350, 120, 50, gameHeight),
+      new StaticPlatform(0, 750, 120, 50, gameHeight),
+      new StaticPlatform(880, 300, 120, 50, gameHeight),
+      new StaticPlatform(880, 600, 120, 50, gameHeight),
+      new StaticPlatform(450, 850, 120, 50, gameHeight),
+      new StaticPlatform(450, 480, 120, 50, gameHeight),
+      new StaticPlatform(450, 200, 120, 50, gameHeight),
       // new Platform(150, 950, 400, 20, gameHeight),
       // new Platform(680, 800, 500, 20, gameHeight),
     ];
@@ -42,7 +43,7 @@ class PlatformEngine {
     for (let i = 0; i < 200; i++) {
       let randomWidthLeft = Math.floor(Math.random() * (150 - 130 + 1)) + 130;
       let randomWidthRight = Math.floor(Math.random() * (160 - 140 + 1)) + 130;
-      let randomPlatY = Math.floor(Math.random() * (300 - 250 + 1)) + 250;
+      let randomPlatY = Math.floor(Math.random() * (500 - 350 + 1)) + 350;
       let randomPlatXLeft = Math.floor(Math.random() * (250 - 200 + 1)) + 200;
       let randomPlatXRight = Math.floor(Math.random() * (650 - 600 + 1)) + 600;
 

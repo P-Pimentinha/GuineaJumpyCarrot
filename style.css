@@ -10,10 +10,6 @@ body {
   border: 5px solid rgb(249, 28, 28);
 }
 
-#playerImage,
-#plankImage,
-#kiwiImage,
-#waterMelonImage,
-#cucumberImage {
+img {
   display: none;
 }

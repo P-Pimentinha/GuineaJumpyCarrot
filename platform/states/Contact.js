@@ -11,7 +11,7 @@ export class Contact extends PlatformState {
 
   handleContact() {
     if (!this.platform.contact) this.platform.setState(states.NORMAL);
-    if (this.platform.timer > 5)
-      this.platform.setState(states.CONTACTSECONDPHASE);
+    // if (this.platform.timer > 5)
+    //   this.platform.setState(states.CONTACTSECONDPHASE);
   }
 }

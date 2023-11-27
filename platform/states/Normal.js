@@ -7,9 +7,7 @@ export class Normal extends PlatformState {
     this.platform = platform;
   }
 
-  enter() {
-    this.platform.color = 'Black';
-  }
+  enter() {}
 
   handleContact() {
     if (this.platform.contact) this.platform.setState(states.CONTACT);

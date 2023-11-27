@@ -23,15 +23,19 @@ class Platform {
     this.image = plankImage;
     this.frameX = 0;
     this.frameY = 0;
-    // this.maxFrame = 1;
+    this.maxFrame = 1;
     //deltaTimeUpdate Speed
     this.frameTimer = 0;
     this.frameInterval = 10 * 1000;
     this.speed = 1.2;
 
-    //deltaTime Update Platform
+    //deltaTime Update Platform Contact Length
     this.frameTimerPlatform = 0;
     this.frameIntervalPlatform = 1 * 1000;
+
+    //deltatime UpdatePlatform Animation
+    this.frameTimerAnimation = 0;
+    this.frameIntervalAnimation = 1 * 1000;
 
     //to delete
     this.color = 'black';
@@ -40,8 +44,8 @@ class Platform {
   }
 
   draw(ctx) {
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    // ctx.fillStyle = this.color;
+    // ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
 
     ctx.drawImage(
       this.image,
@@ -63,8 +67,9 @@ class Platform {
     // } else {
     //   this.frameTimer += deltaTIme;
     // }
+    this.spriteAnimation(deltaTIme);
+    this.moveY();
 
-    this.position.y += this.speed;
     if (this.contact) this.timerAdd(deltaTIme);
     if (this.position.y > this.gameHeight + this.height) this.delete = true;
     else false;
@@ -83,6 +88,20 @@ class Platform {
       this.frameTimerPlatform = 0;
     } else {
       this.frameTimerPlatform += deltaTIme;
+    }
+  }
+
+  moveY() {
+    this.position.y += this.speed;
+  }
+
+  spriteAnimation(deltaTime) {
+    if (this.frameTimerAnimation > this.frameIntervalAnimation) {
+      if (this.frameY < this.maxFrame) this.frameY++;
+      else this.frameY = 0;
+      this.frameTimerAnimation = 0;
+    } else {
+      this.frameTimerAnimation += deltaTime;
     }
   }
 }
