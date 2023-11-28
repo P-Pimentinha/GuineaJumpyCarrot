@@ -5,7 +5,7 @@ class TokenEngine {
     this.gameHeight = gameHeight;
     this.tokens = [new Token(200, 700, this.gameHeight)];
     this.frameTimer = 0;
-    this.frameInterval = 4 * 1000;
+    this.frameInterval = 1 * 1000;
   }
 
   draw(ctx, deltaTime) {
@@ -24,13 +24,19 @@ class TokenEngine {
   }
 
   generateNewToken(deltaTime) {
-    const positionX = Math.floor(Math.random() * (900 - 150 + 1)) + 150;
+    const positionX = {
+      1: Math.floor(Math.random() * (380 - 150 + 1)) + 150,
+      2: Math.floor(Math.random() * (790 - 600 + 1)) + 600,
+    };
+    let randomPositionX = Math.floor(Math.random() * 2) + 1;
     const positionY = -3;
 
     if (this.tokens.length >= 4) {
       this.frameTimer = 0;
     } else if (this.frameTimer > this.frameInterval) {
-      this.tokens.push(new Token(positionX, positionY, this.gameHeight));
+      this.tokens.push(
+        new Token(positionX[randomPositionX], positionY, this.gameHeight)
+      );
       this.frameTimer = 0;
     } else {
       this.frameTimer += deltaTime;

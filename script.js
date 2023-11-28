@@ -8,6 +8,7 @@ import TokenEngine from './tokens/TokenEngine.js';
 import Score from './score/Score.js';
 
 const canvas = document.getElementById('canvas1');
+
 const ctx = canvas.getContext('2d');
 
 window.addEventListener('load', function () {
@@ -31,6 +32,9 @@ window.addEventListener('load', function () {
 
   let lastTime = 0;
 
+  //pauseGame
+  let isPaused = false;
+
   function animate(timeStamp) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     //deltaTIme
@@ -47,9 +51,30 @@ window.addEventListener('load', function () {
     ctx.fillText('Score: ' + score.showScore(), 40, 100);
     ctx.font = '30px Helvetica';
     ctx.fillText('Grounded: ' + player.velocity.y, 40, 150);
+    if (player.position.y > 1100) gameOver();
 
-    requestAnimationFrame(animate);
+    if (!isPaused) requestAnimationFrame(animate);
   }
 
-  // animate(0);
+  function gameOver() {
+    window.cancelAnimationFrame(animate);
+  }
+
+  btnStart.addEventListener('click', function (event) {
+    animate(0);
+    btnStart.remove();
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'P' || event.key === 'p') {
+      console.log('hello');
+      // Call the animate function (replace with your actual animate function)
+      if (isPaused) {
+        isPaused = false;
+        animate(0);
+      } else {
+        isPaused = true;
+      }
+    }
+  });
 });
