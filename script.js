@@ -8,10 +8,14 @@ import TokenEngine from './tokens/TokenEngine.js';
 import Score from './score/Score.js';
 import StartAnimation from './background/StartAnimation.js';
 import GameState from './GameState.js';
+import GameOverAnimation from './GameOver.js';
+import WinAnimation from './Win.js';
+
 const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
-
 const ctx2 = canvas2.getContext('2d');
+const ctx3 = canvas3.getContext('2d');
+const ctx4 = canvas4.getContext('2d');
 
 window.addEventListener('load', function () {
   const canvas = document.getElementById('canvas1');
@@ -20,6 +24,16 @@ window.addEventListener('load', function () {
   canvas.height = 1000;
   canvas2.width = 200;
   canvas2.height = 200;
+  canvas3.width = 600;
+  canvas3.height = 600;
+  canvas4.width = 400;
+  canvas4.height = 600;
+  const winAime = new WinAnimation(ctx4, canvas4.width, canvas4.height);
+  const gameOverAnimation = new GameOverAnimation(
+    ctx3,
+    canvas3.width,
+    canvas3.height
+  );
   const gameState = new GameState();
   const starAnim = new StartAnimation(ctx2, canvas2.width, canvas2.height);
   const score = new Score();
@@ -71,19 +85,31 @@ window.addEventListener('load', function () {
     ctx.fillText('Score: ' + score.showScore(), 40, 100);
     // ctx.font = '30px Helvetica';
     // ctx.fillText('Grounded: ' + player.velocity.y, 40, 150);
-    if (player.position.y > 1100) gameOver();
-    if (score.showScore() >= 20) win();
+    if (player.position.y > 1100) gameOver(0);
+    if (score.showScore() >= 8) win(0);
 
     if (!gameState.pause) requestAnimationFrame(animate);
   }
 
   function animateGameOver(timeStamp) {
-    console.log('GameOverAnimation');
+    ctx3.clearRect(0, 0, canvas3.width, canvas3.height);
+    //deltaTIme
+    const deltaTime3 = timeStamp - lastTimeGameOver;
+    lastTimeGameOver = timeStamp;
+
+    gameOverAnimation.draw(deltaTime3);
+
     requestAnimationFrame(animateGameOver);
   }
 
   function animateWin(timeStamp) {
-    console.log('WinAnimation');
+    ctx4.clearRect(0, 0, canvas4.width, canvas4.height);
+    //deltaTIme
+    const deltaTime4 = timeStamp - lastTimeWin;
+    lastTimeWin = timeStamp;
+
+    winAime.draw(deltaTime4);
+
     requestAnimationFrame(animateWin);
   }
 
@@ -91,14 +117,14 @@ window.addEventListener('load', function () {
   function gameOver() {
     gameState.gamePause();
     gameArea.remove();
-    animateGameOver();
+    animateGameOver(0);
     gameOverHTML.removeAttribute('hidden');
   }
 
   function win() {
     gameState.gamePause();
     gameArea.remove();
-    animateWin();
+    animateWin(0);
     winHTML.removeAttribute('hidden');
   }
 
