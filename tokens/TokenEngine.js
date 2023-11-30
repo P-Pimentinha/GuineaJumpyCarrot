@@ -5,7 +5,7 @@ class TokenEngine {
     this.gameHeight = gameHeight;
     this.tokens = [new Token(200, 700, this.gameHeight)];
     this.frameTimer = 0;
-    this.frameInterval = 1 * 1000;
+    this.frameInterval = 3 * 1000;
   }
 
   draw(ctx, deltaTime) {

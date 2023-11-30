@@ -1,6 +1,6 @@
 class Score {
   constructor() {
-    this.score = 10;
+    this.score = 0;
     this.minimum = 0;
   }
 
